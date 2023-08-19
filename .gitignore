@@ -1,0 +1,6 @@
+# virtualenv folder
+venv/
+
+
+# PyCharm and other IntelliJ IDEs
+.idea/
