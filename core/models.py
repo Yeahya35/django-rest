@@ -1,10 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
     PermissionsMixin,
 )
-
+from django.db import models
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -56,21 +55,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         super(CustomUser, self).save(*args, **kwargs)
 
-
-class Sheet(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, blank=False)
-    description = models.CharField(max_length=255, blank=False)
-    owner = models.ForeignKey(
-        "CustomUser",
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name="sheet_owner",
-    )
-    contributors = models.ManyToManyField(
-        "CustomUser", related_name="sheet_contributors", blank=True
-    )
-
-    def __str__(self):
-        return self.name

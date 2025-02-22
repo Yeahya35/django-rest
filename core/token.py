@@ -1,12 +1,11 @@
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from rest_framework import status
-from rest_framework.response import Response
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.http import JsonResponse
-from django.contrib.auth.models import Permission
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

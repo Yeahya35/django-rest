@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,7 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CUSTOM_APPS = ["sheets", "api"]
+load_dotenv()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+CUSTOM_APPS = ["core"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -38,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework_simplejwt",
+    "core"
 ]
 
 REST_FRAMEWORK = {
@@ -46,7 +55,7 @@ REST_FRAMEWORK = {
     )
 }
 
-INSTALLED_APPS += CUSTOM_APPS
+# INSTALLED_APPS += CUSTOM_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,17 +87,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "dev.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("SUPABASE_DB_NAME"),
+        "USER": os.getenv("SUPABASE_DB_USER"),
+        "PASSWORD": os.getenv("SUPABASE_DB_PASSWORD"),
+        "HOST": os.getenv("SUPABASE_DB_HOST"),
+        "PORT": os.getenv("SUPABASE_DB_PORT"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -108,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -120,8 +130,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = "sheets.CustomUser"
-
+AUTH_USER_MODEL = "core.CustomUser"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

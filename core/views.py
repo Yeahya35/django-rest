@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from sheets.models import CustomUser
+from .models import *
 
 
 @api_view(["POST"])
